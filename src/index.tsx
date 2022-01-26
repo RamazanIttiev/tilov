@@ -4,17 +4,16 @@ import { ThemeProvider } from '@mui/material/styles';
 import { ThemeProvider as StyledThemeProvider } from 'styled-components';
 import { CssBaseline } from '@mui/material';
 import theme from './theme';
+import { App } from './App';
 
-const App = () => {
-    return (
-        <React.StrictMode>
-            <ThemeProvider theme={theme}>
-                <StyledThemeProvider theme={theme}>
-                    <CssBaseline />
-                </StyledThemeProvider>
-            </ThemeProvider>
-        </React.StrictMode>
-    );
-};
-
-ReactDOM.render(React.createElement(App), document.getElementById('root'));
+ReactDOM.render(
+  <React.StrictMode>
+    <ThemeProvider theme={theme}>
+      <StyledThemeProvider theme={theme}>
+        <CssBaseline />
+        <App />
+      </StyledThemeProvider>
+    </ThemeProvider>
+  </React.StrictMode>,
+  document.getElementById('root')
+);

@@ -1,23 +1,23 @@
 const overrides = {
-  trailingComma: "es5",
-  tabWidth: 4,
+  trailingComma: 'es5',
+  tabWidth: 2,
   semi: false,
   singleQuote: true,
-  arrowParens: "avoid",
+  arrowParens: 'avoid',
   overrides: [
     {
-      files: ["*.js", "*.jsx"],
+      files: ['*.js', '*.jsx'],
       options: {
-        endOfLine: "auto",
+        endOfLine: 'auto',
       },
     },
     {
-      files: ["*.ts", "*.tsx"],
+      files: ['*.ts', '*.tsx'],
       options: {
-        endOfLine: "auto",
+        endOfLine: 'auto',
       },
     },
   ],
-};
+}
 
-module.exports = overrides;
+module.exports = overrides
