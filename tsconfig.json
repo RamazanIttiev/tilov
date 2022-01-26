@@ -19,17 +19,11 @@
     "typeRoots": ["./node_modules/@types"],
     "allowSyntheticDefaultImports": true,
     "paths": {
-      "*": ["lib/*", "third-party-legacy/*"]
+      "*": ["lib/*"]
     },
     "lib": ["dom", "es6", "scripthost", "es2015.symbol", "es2017.object", "es2016.array.include"]
   },
   "include": [
-    "third-party-legacy/dx-ui/src/typings",
-    "third-party-legacy/**/*",
     "src/**/*",
-    "./node_modules/@types/resize-observer-browser/index.d.ts",
-    "./i18n/**/*",
-    "react-kit/**/*"
   ],
-  "exclude": ["./**/__tests__/*", "./third-party-legacy"]
 }

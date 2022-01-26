@@ -20,37 +20,21 @@
     }
   },
   "extends": [
-    "eslint-config-prettier",
-    "eslint-config-prettier/@typescript-eslint",
-    "plugin:@typescript-eslint/eslint-plugin/recommended",
-    "plugin:eslint-plugin-react/recommended",
-    "plugin:eslint-plugin-json/recommended"
+    "eslint:recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended"
   ],
   "plugins": [
-    "eslint-plugin-prettier",
     "@typescript-eslint/eslint-plugin",
     "eslint-plugin-react",
     "eslint-plugin-react-hooks",
-    "eslint-plugin-import"
+    "eslint-plugin-import",
+    "prettier"
   ],
   "overrides": [
     {
       "files": ["*.js", "*.jsx"],
       "parser": "@typescript-eslint/parser"
-    },
-    {
-      "files": ["third-party-legacy/react-kit/components/layout/**/*.{ts,tsx}"],
-      "rules": {
-        "@typescript-eslint/no-explicit-any": "off"
-      }
-    },
-    {
-      "files": ["*.json"],
-      "parser": "@typescript-eslint/parser",
-      "parserOptions": {
-        "project": "./tsconfig.node.json",
-        "extraFileExtensions": [".json"]
-      }
     }
   ],
   "rules": {
@@ -225,7 +209,7 @@
     "one-var": ["error", "never"],
     "prefer-const": "error",
     "quote-props": ["error", "as-needed"],
-    "quotes": ["error", "single", { "allowTemplateLiterals": true, "avoidEscape": true }],
+    "quotes": ["error", "double", { "allowTemplateLiterals": true, "avoidEscape": true }],
     "radix": "error",
     "semi": ["error", "always"],
     "space-before-function-paren": "off",
@@ -243,17 +227,6 @@
     "react/jsx-uses-react": "error",
     "react/jsx-uses-vars": "error",
     "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "warn",
-    "no-restricted-imports": [
-      "error",
-      {
-        "name": "@devexperts/react-kit/dist/components/ResizeDetector/ResizeDetector",
-        "message": "Use own resize ResizeDetector from react-kit"
-      },
-      {
-        "name": "@devexperts/react-kit/dist/components/Scrollable/Scrollable",
-        "message": "Use own resize Scrollable from react-kit"
-      }
-    ]
+    "react-hooks/exhaustive-deps": "warn"
   }
 }
