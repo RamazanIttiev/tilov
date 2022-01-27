@@ -2,6 +2,7 @@ import React from 'react';
 import { CustomAppBar } from './components/AppBar';
 import { Promo } from './components/Promo';
 import { Container } from '@mui/material';
+import { Form } from './components/Form';
 
 export const App = () => {
   return (
@@ -9,6 +10,7 @@ export const App = () => {
       <CustomAppBar />
       <Container>
         <Promo />
+        <Form />
       </Container>
     </React.Fragment>
   );
