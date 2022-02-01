@@ -17,6 +17,7 @@ import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
 import 'filepond/dist/filepond.min.css';
 import 'filepond/dist/filepond.css';
 import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
+import { ControlledSwitch } from '../UI/Switch';
 
 const StyledForm = styled('form')(() => ({
   display: 'flex',
@@ -46,6 +47,8 @@ export const Form = () => {
   const [openAlert, setAlert] = useState(false);
   const [error] = useState(false);
   const [files, setFiles] = useState([]);
+  const [checked, setChecked] = useState(false);
+
   registerPlugin(FilePondPluginImagePreview);
   const {
     handleSubmit,
@@ -113,19 +116,22 @@ export const Form = () => {
             autoComplete="off"
             helperText={!!errors.message && 'Опишите проблему'}
           />
-          <FilePondComponent
-            {...register('files')}
-            files={files}
-            // @ts-ignore
-            onupdatefiles={setFiles}
-            allowMultiple={true}
-            allowBrowse={true}
-            allowDrop={true}
-            maxFiles={6}
-            name="files"
-            server="https://www.lawsuitgroup.ru/"
-            labelIdle='Перетащите файлы или <span class="filepond--label-action">Загрузите</span>'
-          />
+          <ControlledSwitch checked={checked} setChecked={setChecked} />
+          {checked && (
+            <FilePondComponent
+              {...register('files')}
+              files={files}
+              // @ts-ignore
+              onupdatefiles={setFiles}
+              allowMultiple={true}
+              allowBrowse={true}
+              allowDrop={true}
+              maxFiles={6}
+              name="files"
+              server="https://www.lawsuitgroup.ru/"
+              labelIdle='Перетащите файлы или <span class="filepond--label-action">Загрузите</span>'
+            />
+          )}
           <TermsPolicy>
             Нажимая на кнопку, Вы принимаете&nbsp;
             <Link color="#fff" href="#">
