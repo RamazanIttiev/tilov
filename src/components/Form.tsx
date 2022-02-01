@@ -3,17 +3,19 @@ import {
   Box,
   Button,
   Container,
+  Link,
   Snackbar,
   SnackbarCloseReason,
   styled,
   TextField,
+  Typography,
 } from '@mui/material';
 import React, { SyntheticEvent, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FilePond as FilePondComponent, registerPlugin } from 'react-filepond';
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
-import 'filepond/dist/filepond.css';
 import 'filepond/dist/filepond.min.css';
+import 'filepond/dist/filepond.css';
 import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
 
 const StyledForm = styled('form')(() => ({
@@ -24,21 +26,20 @@ const StyledForm = styled('form')(() => ({
 }));
 
 const Input = styled(TextField)(() => ({
-  // border: ${props => props.error && '1px solid #EB1717'},
   marginBottom: 24,
 }));
 
-const StyledButton = styled(Button)(() => ({
-  // opacity: props.disabled ? '0.6' : '1',
-  // cursor: props.disabled ? 'default' : 'pointer',
+const StyledButton = styled(Button)(props => ({
+  opacity: props.disabled ? '0.6' : '1',
+  cursor: props.disabled ? 'default' : 'pointer',
   margin: '0 auto',
   width: '50%',
 }));
 
-// const TermsPolicy = styled(Typography)`
-//   margin-top: 16px !important;
-//   font-size: 13px !important;
-// `;
+const TermsPolicy = styled(Typography)(() => ({
+  margin: '16px 0 !important',
+  fontSize: '13px !important',
+}));
 
 export const Form = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -48,9 +49,9 @@ export const Form = () => {
   registerPlugin(FilePondPluginImagePreview);
   const {
     handleSubmit,
-    // formState: { errors },
     register,
-    // reset,
+    formState: { errors },
+    reset,
     setValue,
   } = useForm();
 
@@ -67,8 +68,14 @@ export const Form = () => {
   };
 
   const formSubmit = (data: object) => {
-    console.log(data);
-    // setIsLoading(true);
+    setIsLoading(true);
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
+    setTimeout(() => {
+      setAlert(true);
+    }, 2000);
+    reset();
   };
 
   return (
@@ -78,25 +85,33 @@ export const Form = () => {
           <Input
             {...register('name', { required: true })}
             name="name"
-            // error={errors.name}
+            error={!!errors.name}
             label="ФИО"
             variant="outlined"
+            autoComplete="off"
+            helperText={!!errors.name && 'Введите ФИО'}
           />
           <Input
-            {...register('phone', { required: true })}
-            name="phone"
-            // error={errors.phone}
-            type="number"
-            label="Ваш номер телефона"
+            {...register('email', { required: true })}
+            name="email"
+            error={!!errors.email}
+            type="email"
+            label="Ваш email"
+            variant="outlined"
+            autoComplete="off"
+            helperText={!!errors.email && 'Введите email'}
           />
           <Input
             {...register('message', { required: true })}
             name="message"
-            style={{ height: '124px', resize: 'none' }}
-            // error={errors.message}
+            style={{ resize: 'none' }}
+            error={!!errors.message}
             label="Кратко опишите проблему"
             multiline
-            maxRows={6}
+            maxRows={8}
+            variant="outlined"
+            autoComplete="off"
+            helperText={!!errors.message && 'Опишите проблему'}
           />
           <FilePondComponent
             {...register('files')}
@@ -106,21 +121,22 @@ export const Form = () => {
             allowMultiple={true}
             allowBrowse={true}
             allowDrop={true}
-            maxFiles={3}
+            maxFiles={6}
             name="files"
-            labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'
+            server="https://www.lawsuitgroup.ru/"
+            labelIdle='Перетащите файлы или <span class="filepond--label-action">Загрузите</span>'
           />
-          {/*<TermsPolicy>*/}
-          {/*  Нажимая на кнопку, Вы принимаете&nbsp;*/}
-          {/*  <Link target="_blank" to="/terms">*/}
-          {/*    Положение*/}
-          {/*  </Link>*/}
-          {/*  &nbsp;и&nbsp;*/}
-          {/*  <Link target="_blank" to="/accept">*/}
-          {/*    согласие*/}
-          {/*  </Link>*/}
-          {/*  &nbsp;на обработку персональных данных*/}
-          {/*</TermsPolicy>*/}
+          <TermsPolicy>
+            Нажимая на кнопку, Вы принимаете&nbsp;
+            <Link color="#fff" href="#">
+              Положение
+            </Link>
+            &nbsp;и&nbsp;
+            <Link color="#fff" href="#">
+              согласие
+            </Link>
+            &nbsp;на обработку персональных данных
+          </TermsPolicy>
           <StyledButton
             onClick={() =>
               setValue(
