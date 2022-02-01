@@ -1,61 +1,38 @@
 import {
   Alert,
   Box,
+  Button,
   Container,
   Snackbar,
   SnackbarCloseReason,
   styled,
-  TextareaAutosize,
+  TextField,
 } from '@mui/material';
 import React, { SyntheticEvent, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { FilePond as FilePondComponent, registerPlugin } from 'react-filepond';
+import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
+import 'filepond/dist/filepond.css';
+import 'filepond/dist/filepond.min.css';
+import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
 
 const StyledForm = styled('form')(() => ({
   display: 'flex',
   flexDirection: 'column',
-  margin: '32px auto 0',
+  margin: '0 auto',
   maxWidth: '600px',
 }));
 
-const Input = styled('input')(() => ({
-  padding: '8px',
-  height: '64px',
-  border: '1px solid #c9cacc',
-  borderRadius: '4px',
+const Input = styled(TextField)(() => ({
   // border: ${props => props.error && '1px solid #EB1717'},
-  boxSizing: 'border-box',
-  boxShadow: '0px 0px 4px rgb(0 0 0 / 20%)',
-  marginBottom: '16px',
-  fontSize: '16px',
+  marginBottom: 24,
 }));
 
-const Textarea = styled(TextareaAutosize)(() => ({
-  padding: '8px',
-  border: '1px solid #c9cacc',
-  borderRadius: '4px',
-  // border: ${props => props.error && '1px solid #EB1717'},
-  boxSizing: 'border-box',
-  boxShadow: '0px 0px 4px rgb(0 0 0 / 20%)',
-  fontSize: '16px',
-}));
-
-const StyledButton = styled('button')(props => ({
-  background: props.theme.palette.secondary.main,
-  borderRadius: '50px',
-  opacity: props.disabled ? '0.6' : '1',
-  color: '#fff',
-  padding: '24px',
-  fontWeight: 700,
-  fontSize: '14px',
-  cursor: props.disabled ? 'default' : 'pointer',
-  border: 'none',
-  outline: 'none',
-  display: 'block',
-  margin: '24px auto 0',
-  transition: 'transform 0.3s',
-  // &:hover {
-  //   transform: scale(1.1);
-  // }
+const StyledButton = styled(Button)(() => ({
+  // opacity: props.disabled ? '0.6' : '1',
+  // cursor: props.disabled ? 'default' : 'pointer',
+  margin: '0 auto',
+  width: '50%',
 }));
 
 // const TermsPolicy = styled(Typography)`
@@ -67,55 +44,32 @@ export const Form = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [openAlert, setAlert] = useState(false);
   const [error] = useState(false);
-
+  const [files, setFiles] = useState([]);
+  registerPlugin(FilePondPluginImagePreview);
   const {
     handleSubmit,
     // formState: { errors },
     register,
     // reset,
+    setValue,
   } = useForm();
 
   const closeAlert = (
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     event: Event | SyntheticEvent<never, Event>,
     reason: SnackbarCloseReason
   ) => {
     if (reason === 'clickaway') {
       return;
     }
-    console.log(event);
 
     setAlert(false);
   };
 
   const formSubmit = (data: object) => {
-    setIsLoading(true);
     console.log(data);
+    // setIsLoading(true);
   };
-  //   postData(data)
-  //     .then(response => {
-  //       if (response.status === 200) {
-  //         setAlert(true);
-  //         setIsLoading(false);
-  //         setTimeout(() => {
-  //           closeAlert();
-  //           handleClose();
-  //         }, 2000);
-  //       }
-  //     })
-  //     .catch(err => {
-  //       if (err) {
-  //         setError(true);
-  //         setAlert(true);
-  //         setTimeout(() => {
-  //           closeAlert();
-  //           handleClose();
-  //         }, 4000);
-  //       }
-  //     })
-  //     .finally(() => {
-  //       reset();
-  //     });
-  // };
 
   return (
     <Box sx={{ p: '48px 0' }}>
@@ -125,22 +79,36 @@ export const Form = () => {
             {...register('name', { required: true })}
             name="name"
             // error={errors.name}
-            type="text"
-            placeholder="ФИО"
+            label="ФИО"
+            variant="outlined"
           />
           <Input
             {...register('phone', { required: true })}
             name="phone"
             // error={errors.phone}
             type="number"
-            placeholder="Ваш номер телефона"
+            label="Ваш номер телефона"
           />
-          <Textarea
+          <Input
             {...register('message', { required: true })}
             name="message"
             style={{ height: '124px', resize: 'none' }}
             // error={errors.message}
-            placeholder="Кратко опишите проблему"
+            label="Кратко опишите проблему"
+            multiline
+            maxRows={6}
+          />
+          <FilePondComponent
+            {...register('files')}
+            files={files}
+            // @ts-ignore
+            onupdatefiles={setFiles}
+            allowMultiple={true}
+            allowBrowse={true}
+            allowDrop={true}
+            maxFiles={3}
+            name="files"
+            labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'
           />
           {/*<TermsPolicy>*/}
           {/*  Нажимая на кнопку, Вы принимаете&nbsp;*/}
@@ -153,9 +121,25 @@ export const Form = () => {
           {/*  </Link>*/}
           {/*  &nbsp;на обработку персональных данных*/}
           {/*</TermsPolicy>*/}
-          <StyledButton disabled={isLoading} type="submit">
+          <StyledButton
+            onClick={() =>
+              setValue(
+                'files',
+                // @ts-ignore
+                files.map(file => file.file),
+                {
+                  shouldValidate: true,
+                }
+              )
+            }
+            variant="contained"
+            color="secondary"
+            disabled={isLoading}
+            type="submit"
+          >
             Получить консультацию
           </StyledButton>
+
           <Snackbar
             open={openAlert}
             autoHideDuration={6000}
