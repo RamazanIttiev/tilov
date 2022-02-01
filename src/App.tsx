@@ -4,6 +4,7 @@ import { Promo } from './components/Promo';
 import { Container } from '@mui/material';
 import { Form } from './components/Form';
 import { Footer } from './components/Footer';
+import { Services } from './components/Services';
 
 export const App = () => {
   return (
@@ -11,6 +12,7 @@ export const App = () => {
       <CustomAppBar />
       <Container>
         <Promo />
+        <Services />
         <Form />
       </Container>
       <Footer />
