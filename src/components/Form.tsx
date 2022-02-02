@@ -5,19 +5,18 @@ import {
   Container,
   Link,
   Snackbar,
-  SnackbarCloseReason,
   styled,
   TextField,
   Typography,
 } from '@mui/material';
-import React, { SyntheticEvent, useState } from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { FilePond as FilePondComponent, registerPlugin } from 'react-filepond';
+import { registerPlugin } from 'react-filepond';
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
 import 'filepond/dist/filepond.min.css';
 import 'filepond/dist/filepond.css';
 import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
-import { ControlledSwitch } from '../UI/Switch';
+import { FileUpload } from './FileUpload';
 
 const StyledForm = styled('form')(() => ({
   display: 'flex',
@@ -45,11 +44,12 @@ const TermsPolicy = styled(Typography)(() => ({
 export const Form = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [openAlert, setAlert] = useState(false);
-  const [error] = useState(false);
+  const [error, setError] = useState(false);
   const [files, setFiles] = useState([]);
   const [checked, setChecked] = useState(false);
-
+  console.log(files);
   registerPlugin(FilePondPluginImagePreview);
+
   const {
     handleSubmit,
     register,
@@ -58,10 +58,9 @@ export const Form = () => {
     setValue,
   } = useForm();
 
-  const closeAlert = (
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    event: Event | SyntheticEvent<never, Event>,
-    reason: SnackbarCloseReason
+  const handleClose = (
+    event?: React.SyntheticEvent | Event,
+    reason?: string
   ) => {
     if (reason === 'clickaway') {
       return;
@@ -116,22 +115,13 @@ export const Form = () => {
             autoComplete="off"
             helperText={!!errors.message && 'Опишите проблему'}
           />
-          <ControlledSwitch checked={checked} setChecked={setChecked} />
-          {checked && (
-            <FilePondComponent
-              {...register('files')}
-              files={files}
-              // @ts-ignore
-              onupdatefiles={setFiles}
-              allowMultiple={true}
-              allowBrowse={true}
-              allowDrop={true}
-              maxFiles={6}
-              name="files"
-              server="https://www.lawsuitgroup.ru/"
-              labelIdle='Перетащите файлы или <span class="filepond--label-action">Загрузите</span>'
-            />
-          )}
+          <FileUpload
+            checked={checked}
+            setChecked={setChecked}
+            register={register}
+            files={files}
+            setFiles={setFiles}
+          />
           <TermsPolicy>
             Нажимая на кнопку, Вы принимаете&nbsp;
             <Link color="#fff" href="#">
@@ -162,14 +152,11 @@ export const Form = () => {
             Получить консультацию
           </StyledButton>
 
-          <Snackbar
-            open={openAlert}
-            autoHideDuration={6000}
-            onClose={closeAlert}
-          >
+          <Snackbar open={openAlert} autoHideDuration={6000}>
             <Alert
               severity={error ? 'error' : 'success'}
               sx={{ width: '100%' }}
+              onClose={handleClose}
             >
               {error
                 ? 'Произошла ошибка, запишитесь пожалуйста по телефону'
