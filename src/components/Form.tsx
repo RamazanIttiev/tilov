@@ -3,6 +3,7 @@ import {
   Box,
   Button,
   Container,
+  Grid,
   Link,
   Snackbar,
   styled,
@@ -17,16 +18,13 @@ import 'filepond/dist/filepond.min.css';
 import 'filepond/dist/filepond.css';
 import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
 import { FileUpload } from './FileUpload';
+import { AccountCircle, Email, PhoneIphone } from '@mui/icons-material';
 
 const StyledForm = styled('form')(() => ({
   display: 'flex',
   flexDirection: 'column',
   margin: '0 auto',
   maxWidth: '600px',
-}));
-
-const Input = styled(TextField)(() => ({
-  marginBottom: 24,
 }));
 
 const StyledButton = styled(Button)(props => ({
@@ -47,7 +45,7 @@ export const Form = () => {
   const [error, setError] = useState(false);
   const [files, setFiles] = useState([]);
   const [checked, setChecked] = useState(false);
-  console.log(files);
+
   registerPlugin(FilePondPluginImagePreview);
 
   const {
@@ -84,17 +82,62 @@ export const Form = () => {
     <Box sx={{ p: '48px 0' }}>
       <Container maxWidth="lg">
         <StyledForm onSubmit={handleSubmit(formSubmit)}>
-          <Input
-            {...register('name', { required: true })}
-            name="name"
+          <Grid container spacing={3}>
+            <Grid item xs={11} sm={6} md={6}>
+              <TextField
+                {...register('name', { required: true })}
+                required
+                name="name"
+                error={!!errors.name}
+                label="Имя"
+                variant="outlined"
+                autoComplete="off"
+                helperText={!!errors.name && 'Введите Имя'}
+                sx={{ width: '100%', mb: 3 }}
+                InputProps={{
+                  endAdornment: <AccountCircle />,
+                }}
+              />
+            </Grid>
+            <Grid item xs={11} sm={6} md={6}>
+              <TextField
+                {...register('surname', { required: true })}
+                required
+                name="surname"
+                error={!!errors.surname}
+                label="Фамилия"
+                variant="outlined"
+                autoComplete="off"
+                helperText={!!errors.surname && 'Введите фамилию'}
+                sx={{ width: '100%', mb: 3 }}
+                InputProps={{
+                  endAdornment: <AccountCircle />,
+                }}
+              />
+            </Grid>
+          </Grid>
+          {/*<InputMask mask="8 999 999-99-99" disabled={false}>*/}
+          {/*</InputMask>*/}
+          <TextField
+            {...register('phone', { required: true })}
+            required
+            id="phone"
+            name="phone"
+            inputMode="tel"
+            type="number"
             error={!!errors.name}
-            label="ФИО"
+            label="Номер телефона"
             variant="outlined"
             autoComplete="off"
-            helperText={!!errors.name && 'Введите ФИО'}
+            helperText={!!errors.phone && 'Введите номер телефона'}
+            sx={{ mb: 3 }}
+            InputProps={{
+              endAdornment: <PhoneIphone />,
+            }}
           />
-          <Input
+          <TextField
             {...register('email', { required: true })}
+            required
             name="email"
             error={!!errors.email}
             type="email"
@@ -102,8 +145,12 @@ export const Form = () => {
             variant="outlined"
             autoComplete="off"
             helperText={!!errors.email && 'Введите email'}
+            sx={{ mb: 3 }}
+            InputProps={{
+              endAdornment: <Email />,
+            }}
           />
-          <Input
+          <TextField
             {...register('message', { required: true })}
             name="message"
             style={{ resize: 'none' }}
@@ -114,6 +161,7 @@ export const Form = () => {
             variant="outlined"
             autoComplete="off"
             helperText={!!errors.message && 'Опишите проблему'}
+            sx={{ mb: 3 }}
           />
           <FileUpload
             checked={checked}
@@ -145,7 +193,7 @@ export const Form = () => {
               )
             }
             variant="contained"
-            color="secondary"
+            color="primary"
             disabled={isLoading}
             type="submit"
           >

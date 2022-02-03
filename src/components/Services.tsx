@@ -42,25 +42,26 @@ export const Services = () => {
       <Grid container spacing={4} sx={{ justifyContent: 'center' }}>
         {servicesData.map(({ title, description, price, icon }) => {
           return (
-            <Grid item xs={11} sm={6} md={4}>
+            <Grid item xs={11} sm={6} md={3}>
               <Card
                 sx={{
-                  padding: '24px',
                   transition: 'transform 0.3s',
                   '&:hover': {
                     transform: 'scale(1.05)',
                   },
                 }}
               >
-                <CardHeader title={title} avatar={icon} />
+                <CardHeader
+                  sx={{
+                    backgroundColor: theme => theme.palette.secondary.main,
+                    color: theme => theme.palette.secondary.contrastText,
+                  }}
+                  title={title}
+                  avatar={icon}
+                />
                 <CardContent>
-                  <Typography variant="body2" color="text.primary">
-                    {description}
-                  </Typography>
-                  <Typography
-                    sx={{ margin: '32px 0 0', fontSize: 14 }}
-                    color="text.secondary"
-                  >
+                  <Typography variant="body2">{description}</Typography>
+                  <Typography sx={{ margin: '32px 0 0', fontSize: 14 }}>
                     Цена: {price}
                   </Typography>
                 </CardContent>

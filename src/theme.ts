@@ -4,10 +4,14 @@ export const theme: ThemeOptions = createTheme({
   palette: {
     mode: 'dark',
     primary: {
-      main: '#191A1C',
+      main: '#fff59d',
     },
     secondary: {
-      main: '#FFF59D',
+      main: '#ffecb3',
+      contrastText: 'rgba(0,0,0,0.87)',
+    },
+    background: {
+      default: '#2f2f2f',
     },
   },
   typography: {

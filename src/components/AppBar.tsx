@@ -9,7 +9,7 @@ import { PhoneIphone } from '@mui/icons-material';
 export const CustomAppBar = () => {
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+      <AppBar position="static" color="primary" enableColorOnDark>
         <Toolbar>
           <Typography variant="h6" sx={{ flexGrow: 1, color: 'fff' }}>
             Тилов Азамат

@@ -19,6 +19,7 @@ export const ControlledSwitch = ({
       <FormControlLabel
         control={<Switch checked={checked} onChange={handleChange} />}
         label="Прикрепить файлы"
+        color="primary"
       />
     </FormGroup>
   );
