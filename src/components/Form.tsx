@@ -12,11 +12,7 @@ import {
 } from '@mui/material';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { registerPlugin } from 'react-filepond';
-import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
-import 'filepond/dist/filepond.min.css';
-import 'filepond/dist/filepond.css';
-import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
+
 import { FileUpload } from './FileUpload';
 import { AccountCircle, Email, PhoneIphone } from '@mui/icons-material';
 
@@ -45,8 +41,6 @@ export const Form = () => {
   const [error, setError] = useState(false);
   const [files, setFiles] = useState([]);
   const [checked, setChecked] = useState(false);
-
-  registerPlugin(FilePondPluginImagePreview);
 
   const {
     handleSubmit,

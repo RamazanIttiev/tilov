@@ -3,6 +3,9 @@ import { Box, Paper, Zoom } from '@mui/material';
 import { ControlledSwitch } from '../UI/Switch';
 import { FilePond as FilePondComponent } from 'react-filepond';
 import { UseFormRegisterReturn } from 'react-hook-form';
+import 'filepond/dist/filepond.min.css';
+import 'filepond/dist/filepond.css';
+import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
 
 type FileUploadType = {
   checked: boolean;
@@ -11,6 +14,7 @@ type FileUploadType = {
   files: never[];
   setFiles: (files: []) => void;
 };
+
 export const FileUpload = ({
   checked,
   setChecked,
