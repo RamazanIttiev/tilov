@@ -66,6 +66,11 @@ export const Form = () => {
     setTimeout(() => {
       setIsLoading(false);
     }, 1000);
+
+    fetch('/mailer.js').then(res => {
+      console.log(res);
+    });
+
     setTimeout(() => {
       setAlert(true);
     }, 2000);
@@ -79,8 +84,8 @@ export const Form = () => {
           <Grid container spacing={3}>
             <Grid item xs={11} sm={6} md={6}>
               <TextField
-                {...register('name', { required: true })}
-                required
+                /*{...register('name', { required: true })}*/
+                // required
                 name="name"
                 error={!!errors.name}
                 label="Имя"
@@ -95,8 +100,8 @@ export const Form = () => {
             </Grid>
             <Grid item xs={11} sm={6} md={6}>
               <TextField
-                {...register('surname', { required: true })}
-                required
+                /*{...register('surname', { required: true })}*/
+                // required
                 name="surname"
                 error={!!errors.surname}
                 label="Фамилия"
@@ -113,8 +118,8 @@ export const Form = () => {
           {/*<InputMask mask="8 999 999-99-99" disabled={false}>*/}
           {/*</InputMask>*/}
           <TextField
-            {...register('phone', { required: true })}
-            required
+            /*{...register('phone', { required: true })}*/
+            // required
             id="phone"
             name="phone"
             inputMode="tel"
@@ -130,8 +135,8 @@ export const Form = () => {
             }}
           />
           <TextField
-            {...register('email', { required: true })}
-            required
+            /*{...register('email', { required: true })}*/
+            // required
             name="email"
             error={!!errors.email}
             type="email"
@@ -145,7 +150,7 @@ export const Form = () => {
             }}
           />
           <TextField
-            {...register('message', { required: true })}
+            {...register('message')}
             name="message"
             style={{ resize: 'none' }}
             error={!!errors.message}
