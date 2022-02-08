@@ -16,8 +16,6 @@ import { useForm } from 'react-hook-form';
 import { FileUpload } from './FileUpload';
 import { AccountCircle, Email, PhoneIphone } from '@mui/icons-material';
 
-import mailSender from '../services/mailer';
-
 const StyledForm = styled('form')(() => ({
   display: 'flex',
   flexDirection: 'column',
@@ -37,6 +35,14 @@ const TermsPolicy = styled(Typography)(() => ({
   fontSize: '13px !important',
 }));
 
+export type MailData = {
+  name: string;
+  surname: string;
+  email: string;
+  phone: number;
+  message: string;
+};
+
 export const Form = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [openAlert, setAlert] = useState(false);
@@ -47,11 +53,10 @@ export const Form = () => {
   const {
     handleSubmit,
     register,
-    formState: { errors },
     reset,
     setValue,
+    formState: { errors },
   } = useForm();
-
   const handleClose = (
     event?: React.SyntheticEvent | Event,
     reason?: string
@@ -63,13 +68,13 @@ export const Form = () => {
     setAlert(false);
   };
 
-  const formSubmit = (data: object) => {
+  const formSubmit = (data: MailData) => {
     setIsLoading(true);
     setTimeout(() => {
       setIsLoading(false);
     }, 1000);
 
-    mailSender();
+    // sendEmail({ ...data });
 
     setTimeout(() => {
       setAlert(true);
@@ -80,16 +85,12 @@ export const Form = () => {
   return (
     <Box sx={{ p: '48px 0' }}>
       <Container maxWidth="lg">
-        <StyledForm
-          action="phpmailer.php"
-          method="post"
-          onSubmit={handleSubmit(formSubmit)}
-        >
+        <StyledForm autoComplete="off" onSubmit={handleSubmit(formSubmit)}>
           <Grid container spacing={3}>
             <Grid item xs={11} sm={6} md={6}>
               <TextField
-                /*{...register('name', { required: true })}*/
-                // required
+                {...register('name')}
+                required
                 name="name"
                 error={!!errors.name}
                 label="Имя"
@@ -104,8 +105,8 @@ export const Form = () => {
             </Grid>
             <Grid item xs={11} sm={6} md={6}>
               <TextField
-                /*{...register('surname', { required: true })}*/
-                // required
+                {...register('surname', { required: true })}
+                required
                 name="surname"
                 error={!!errors.surname}
                 label="Фамилия"
@@ -122,16 +123,15 @@ export const Form = () => {
           {/*<InputMask mask="8 999 999-99-99" disabled={false}>*/}
           {/*</InputMask>*/}
           <TextField
-            /*{...register('phone', { required: true })}*/
-            // required
-            id="phone"
+            {...register('phone', { required: true })}
+            required
             name="phone"
-            inputMode="tel"
-            type="number"
-            error={!!errors.name}
+            type="text"
+            error={!!errors.phone}
             label="Номер телефона"
             variant="outlined"
             autoComplete="off"
+            inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
             helperText={!!errors.phone && 'Введите номер телефона'}
             sx={{ mb: 3 }}
             InputProps={{
@@ -139,8 +139,8 @@ export const Form = () => {
             }}
           />
           <TextField
-            /*{...register('email', { required: true })}*/
-            // required
+            {...register('email', { required: true })}
+            required
             name="email"
             error={!!errors.email}
             type="email"

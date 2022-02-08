@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/RamazanIttiev/tilov#readme",
   "dependencies": {
+    "@emailjs/browser": "^3.4.0",
     "@emotion/react": "^11.7.1",
     "@emotion/styled": "^11.6.0",
     "@mui/icons-material": "^5.3.1",
