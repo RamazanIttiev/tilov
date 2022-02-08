@@ -16,6 +16,8 @@ import { useForm } from 'react-hook-form';
 import { FileUpload } from './FileUpload';
 import { AccountCircle, Email, PhoneIphone } from '@mui/icons-material';
 
+import mailSender from '../services/mailer';
+
 const StyledForm = styled('form')(() => ({
   display: 'flex',
   flexDirection: 'column',
@@ -67,9 +69,7 @@ export const Form = () => {
       setIsLoading(false);
     }, 1000);
 
-    fetch('/mailer.js').then(res => {
-      console.log(res);
-    });
+    mailSender();
 
     setTimeout(() => {
       setAlert(true);
@@ -80,7 +80,11 @@ export const Form = () => {
   return (
     <Box sx={{ p: '48px 0' }}>
       <Container maxWidth="lg">
-        <StyledForm onSubmit={handleSubmit(formSubmit)}>
+        <StyledForm
+          action="phpmailer.php"
+          method="post"
+          onSubmit={handleSubmit(formSubmit)}
+        >
           <Grid container spacing={3}>
             <Grid item xs={11} sm={6} md={6}>
               <TextField
