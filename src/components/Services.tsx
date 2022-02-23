@@ -40,9 +40,9 @@ export const Services = () => {
         Услуги
       </Typography>
       <Grid container spacing={4} sx={{ justifyContent: 'center' }}>
-        {servicesData.map(({ title, description, price, icon }) => {
+        {servicesData.map(({ title, description, price, icon }, index) => {
           return (
-            <Grid item xs={11} sm={6} md={3}>
+            <Grid key={index} item xs={11} sm={6} md={3}>
               <Card
                 sx={{
                   transition: 'transform 0.3s',

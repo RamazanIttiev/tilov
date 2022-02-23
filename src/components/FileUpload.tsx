@@ -7,13 +7,13 @@ import 'filepond/dist/filepond.min.css';
 import 'filepond/dist/filepond.css';
 import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
 
-type FileUploadType = {
+interface FileUploadType {
   checked: boolean;
   setChecked: Dispatch<SetStateAction<boolean>>;
   register: (name: string) => UseFormRegisterReturn;
-  files: never[];
+  files: string[];
   setFiles: (files: []) => void;
-};
+}
 
 export const FileUpload = ({
   checked,
@@ -31,7 +31,6 @@ export const FileUpload = ({
             <FilePondComponent
               {...register('files')}
               files={files}
-              // @ts-ignore
               onupdatefiles={setFiles}
               allowMultiple={true}
               allowBrowse={true}

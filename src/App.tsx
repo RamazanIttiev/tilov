@@ -2,9 +2,9 @@ import React from 'react';
 import { CustomAppBar } from './components/AppBar';
 import { Promo } from './components/Promo';
 import { Container } from '@mui/material';
-import { Form } from './components/Form';
 import { Footer } from './components/Footer';
 import { Services } from './components/Services';
+import { FormContainer } from './components/form/form-container';
 
 export const App = () => {
   return (
@@ -13,7 +13,7 @@ export const App = () => {
       <Container>
         <Promo />
         <Services />
-        <Form />
+        <FormContainer />
       </Container>
       <Footer />
     </React.Fragment>

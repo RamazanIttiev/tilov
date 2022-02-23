@@ -1,5 +1,5 @@
 import emailjs from '@emailjs/browser';
-import { MailData } from '../components/Form';
+import { FormValues } from '../components/form/form-container';
 
 export const sendEmail = ({
   name,
@@ -7,7 +7,7 @@ export const sendEmail = ({
   email,
   phone,
   message,
-}: MailData) => {
+}: FormValues) => {
   const templateParams = {
     from_name: `${name} ${surname}`,
     to_name: 'Азамат Жамалович',
@@ -16,13 +16,15 @@ export const sendEmail = ({
     message,
   };
 
-  emailjs.init('user_i1BjZNlXLkdMiSMTyPs0j');
-  emailjs.send('service_8hmlcci', 'template_19mo9t9', templateParams).then(
-    response => {
-      console.log('SUCCESS!', response.status, response.text);
-    },
-    error => {
-      console.log('FAILED...', error);
-    }
-  );
+  return new Promise((resolve, reject) => {
+    emailjs.init('user_i1BjZNlXLkdMiSMTyPs0j');
+    emailjs
+      .send('service_8hmlcci', 'template_19mo9t9', templateParams)
+      .then(res => {
+        resolve(res);
+      })
+      .catch(error => {
+        reject(error);
+      });
+  });
 };
