@@ -17,7 +17,6 @@ import {
   UseFormHandleSubmit,
 } from 'react-hook-form';
 import { UseFormRegister } from 'react-hook-form/dist/types/form';
-import InputMask from 'react-input-mask';
 
 const StyledForm = styled('form')(() => ({
   display: 'flex',
@@ -63,11 +62,10 @@ export const FormComponent: FC<FormComponentProps> = ({
     <Grid container spacing={3}>
       <Grid item xs={11} sm={6} md={6}>
         <TextField
-          {...register('name')}
-          required
+          {...register('name', { required: true })}
           name="name"
           error={!!errors.name}
-          label="Имя"
+          label="Имя *"
           variant="outlined"
           autoComplete="off"
           sx={{ width: '100%', mb: 3 }}
@@ -79,10 +77,9 @@ export const FormComponent: FC<FormComponentProps> = ({
       <Grid item xs={11} sm={6} md={6}>
         <TextField
           {...register('surname', { required: true })}
-          required
           name="surname"
           error={!!errors.surname}
-          label="Фамилия"
+          label="Фамилия *"
           variant="outlined"
           autoComplete="off"
           sx={{ width: '100%', mb: 3 }}
@@ -93,35 +90,23 @@ export const FormComponent: FC<FormComponentProps> = ({
       </Grid>
     </Grid>
 
-    <InputMask
-      {...register('phone', { required: true })}
-      mask="8 999 999 99 99"
-      disabled={false}
-    >
-      {() => (
-        <TextField
-          required
-          name="phone"
-          type="text"
-          error={!!errors.phone}
-          label="Номер телефона"
-          variant="outlined"
-          autoComplete="off"
-          sx={{ mb: 3 }}
-          InputProps={{
-            endAdornment: <PhoneIphone />,
-          }}
-        />
-      )}
-    </InputMask>
+    <TextField
+      error={!!errors.phone}
+      label="Номер телефона *"
+      variant="outlined"
+      autoComplete="off"
+      sx={{ mb: 3 }}
+      InputProps={{
+        endAdornment: <PhoneIphone />,
+      }}
+    />
 
     <TextField
       {...register('email', { required: true })}
-      required
       name="email"
       error={!!errors.email}
       type="email"
-      label="Ваш email"
+      label="Ваш email *"
       variant="outlined"
       autoComplete="off"
       sx={{ mb: 3 }}
