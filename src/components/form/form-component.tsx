@@ -17,6 +17,7 @@ import {
   UseFormHandleSubmit,
 } from 'react-hook-form';
 import { UseFormRegister } from 'react-hook-form/dist/types/form';
+import InputMask from 'react-input-mask';
 
 const StyledForm = styled('form')(() => ({
   display: 'flex',
@@ -57,121 +58,132 @@ export const FormComponent: FC<FormComponentProps> = ({
   openAlert,
   error,
   errors,
-}) => (
-  <StyledForm autoComplete="off" onSubmit={handleSubmit(handleSubmitForm)}>
-    <Grid container spacing={3}>
-      <Grid item xs={11} sm={6} md={6}>
-        <TextField
-          {...register('name', { required: true })}
-          name="name"
-          error={!!errors.name}
-          label="Имя *"
-          variant="outlined"
-          autoComplete="off"
-          sx={{ width: '100%', mb: 3 }}
-          InputProps={{
-            endAdornment: <AccountCircle />,
-          }}
-        />
+}) => {
+  return (
+    <StyledForm autoComplete="off" onSubmit={handleSubmit(handleSubmitForm)}>
+      <Grid container spacing={3}>
+        <Grid item xs={11} sm={6} md={6}>
+          <TextField
+            {...register('name')}
+            error={!!errors.name}
+            helperText={errors?.name?.message}
+            label="Имя *"
+            variant="outlined"
+            autoComplete="off"
+            sx={{ width: '100%', mb: 3 }}
+            InputProps={{
+              endAdornment: <AccountCircle />,
+            }}
+          />
+        </Grid>
+        <Grid item xs={11} sm={6} md={6}>
+          <TextField
+            {...register('surname')}
+            error={!!errors.surname}
+            helperText={errors?.surname?.message}
+            label="Фамилия *"
+            variant="outlined"
+            autoComplete="off"
+            sx={{ width: '100%', mb: 3 }}
+            InputProps={{
+              endAdornment: <AccountCircle />,
+            }}
+          />
+        </Grid>
       </Grid>
-      <Grid item xs={11} sm={6} md={6}>
-        <TextField
-          {...register('surname', { required: true })}
-          name="surname"
-          error={!!errors.surname}
-          label="Фамилия *"
-          variant="outlined"
-          autoComplete="off"
-          sx={{ width: '100%', mb: 3 }}
-          InputProps={{
-            endAdornment: <AccountCircle />,
-          }}
-        />
-      </Grid>
-    </Grid>
 
-    <TextField
-      error={!!errors.phone}
-      label="Номер телефона *"
-      variant="outlined"
-      autoComplete="off"
-      sx={{ mb: 3 }}
-      InputProps={{
-        endAdornment: <PhoneIphone />,
-      }}
-    />
+      <InputMask mask="8 (999) 999 99 99" {...register('phone')}>
+        {() => {
+          return (
+            <TextField
+              name="phone"
+              type="text"
+              error={!!errors.phone}
+              helperText={errors?.phone?.message}
+              label="Номер телефона *"
+              variant="outlined"
+              autoComplete="off"
+              sx={{ mb: 3 }}
+              InputProps={{
+                endAdornment: <PhoneIphone />,
+              }}
+            />
+          );
+        }}
+      </InputMask>
 
-    <TextField
-      {...register('email', { required: true })}
-      name="email"
-      error={!!errors.email}
-      type="email"
-      label="Ваш email *"
-      variant="outlined"
-      autoComplete="off"
-      sx={{ mb: 3 }}
-      InputProps={{
-        endAdornment: <Email />,
-      }}
-    />
-    <TextField
-      {...register('message')}
-      name="message"
-      style={{ resize: 'none' }}
-      error={!!errors.message}
-      label="Кратко опишите проблему"
-      multiline
-      maxRows={8}
-      variant="outlined"
-      autoComplete="off"
-      sx={{ mb: 3 }}
-    />
-    {/*<FileUpload*/}
-    {/*  checked={checked}*/}
-    {/*  setChecked={setChecked}*/}
-    {/*  register={register}*/}
-    {/*  files={files}*/}
-    {/*  setFiles={setFiles}*/}
-    {/*/>*/}
-    <TermsPolicy>
-      Нажимая на кнопку, Вы принимаете&nbsp;
-      <Link color="#fff" href="#">
-        Положение
-      </Link>
-      &nbsp;и&nbsp;
-      <Link color="#fff" href="#">
-        согласие
-      </Link>
-      &nbsp;на обработку персональных данных
-    </TermsPolicy>
-    <StyledButton
-      /* onClick={() =>
-      //   setValue(
-      //     'files',
-      //     files.map(file => file.file),
-      //     {
-      //       shouldValidate: true,
-      //     }
-      //   )
-      */
-      variant="contained"
-      color="primary"
-      disabled={isLoading}
-      type="submit"
-    >
-      Получить консультацию
-    </StyledButton>
-
-    <Snackbar open={openAlert} autoHideDuration={6000}>
-      <Alert
-        severity={error ? 'error' : 'success'}
-        sx={{ width: '100%' }}
-        onClose={handleClose}
+      <TextField
+        {...register('email')}
+        error={!!errors.email}
+        helperText={errors?.email?.message}
+        type="email"
+        label="Ваш email *"
+        variant="outlined"
+        autoComplete="off"
+        sx={{ mb: 3 }}
+        InputProps={{
+          endAdornment: <Email />,
+        }}
+      />
+      <TextField
+        {...register('message')}
+        style={{ resize: 'none' }}
+        error={!!errors.message}
+        helperText={errors?.message?.message}
+        label="Кратко опишите проблему"
+        multiline
+        maxRows={8}
+        variant="outlined"
+        autoComplete="off"
+        sx={{ mb: 3 }}
+      />
+      {/*<FileUpload*/}
+      {/*  checked={checked}*/}
+      {/*  setChecked={setChecked}*/}
+      {/*  register={register}*/}
+      {/*  files={files}*/}
+      {/*  setFiles={setFiles}*/}
+      {/*/>*/}
+      <TermsPolicy>
+        Нажимая на кнопку, Вы принимаете&nbsp;
+        <Link color="#fff" href="#">
+          Положение
+        </Link>
+        &nbsp;и&nbsp;
+        <Link color="#fff" href="#">
+          согласие
+        </Link>
+        &nbsp;на обработку персональных данных
+      </TermsPolicy>
+      <StyledButton
+        /* onClick={() =>
+        //   setValue(
+        //     'files',
+        //     files.map(file => file.file),
+        //     {
+        //       shouldValidate: true,
+        //     }
+        //   )
+        */
+        variant="contained"
+        color="primary"
+        disabled={isLoading}
+        type="submit"
       >
-        {error
-          ? 'Произошла ошибка, запишитесь пожалуйста по телефону'
-          : 'Ваша заявка успешно отправлена'}
-      </Alert>
-    </Snackbar>
-  </StyledForm>
-);
+        Получить консультацию
+      </StyledButton>
+
+      <Snackbar open={openAlert} autoHideDuration={6000}>
+        <Alert
+          severity={error ? 'error' : 'success'}
+          sx={{ width: '100%' }}
+          onClose={handleClose}
+        >
+          {error
+            ? 'Произошла ошибка, запишитесь пожалуйста по телефону'
+            : 'Ваша заявка успешно отправлена'}
+        </Alert>
+      </Snackbar>
+    </StyledForm>
+  );
+};
